@@ -76,6 +76,10 @@ class RanorexLibrary(object):
         raise AssertionError("Element is not supported. Entered element: %s" %
                              ele)
     
+    def close_all_browsers(self):
+        os.system("TASKKILL /F /IM chrome.exe")
+        os.system("TASKKILL /F /IM iexplore.exe")    
+
     def open_browser(self, url, browser):
         """ Opens the browser at a URL
         """
