@@ -1,0 +1,16 @@
+example/log.html
+example/output.xml
+example/robot.html
+example/saved.png
+example/report.html
+TestSuite_*
+Ranorex*
+example/*.swp
+src/*.swp
+src/*.html
+src/*.xml
+src/unit_tests/*.swp
+*/*/*.pyc
+*.swp
+*.pyc 
+*/*.pyc
