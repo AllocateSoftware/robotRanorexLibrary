@@ -73,12 +73,25 @@ class RanorexLibrary(object):
                 return item
             elif ele.lower() == '':
                 raise AssertionError("No element entered")
-        raise AssertionError("Element is not supported. Entered element: %s" %
-                             ele)
+                
+        if self.debug:
+            log = logging.getLogger("Return type")
+            log.debug("Ranorex supports: %s", dir(Ranorex))
+            
+        raise AssertionError("Element is not supported. Entered element: %s" %ele)
     
     def close_all_browsers(self):
         os.system("TASKKILL /F /IM chrome.exe")
         os.system("TASKKILL /F /IM iexplore.exe")    
+
+    def close_browser(self):
+        """ Close the browser with pid
+        """
+        if self.debug:
+            log = logging.getLogger("Close Browser")
+            log.debug("browser pid: %s", self.browserPid)
+        # why doesn't close work?
+        Ranorex.Host.Local.KillApplication(self.browserPid)
 
     def open_browser(self, url, browser):
         """ Opens the browser at a URL
@@ -87,18 +100,27 @@ class RanorexLibrary(object):
             log = logging.getLogger("Open Browser")
             log.debug("url: %s", url)
             log.debug("browser: %s", browser)
-        Ranorex.Host.Local.OpenBrowser(url, browser)
+        self.browserPid = Ranorex.Host.Local.OpenBrowser(url, browser)
 
     def check_if_element_exists(self, locator, duration=5000):
         """ Checks if the element exists within the timout (or specified duration)
         """
         if self.debug:
-            log = logging.getLogger("Check if Element Exists")
+            log = logging.getLogger("Check if element exists")
             log.debug("locator: %s", locator)
             log.debug("duration: %s", duration)
         Ranorex.Validate.Exists(locator, duration)
         return True
-        
+
+    def check_if_element_does_not_exist(self, locator, duration=5000):
+        """ Checks if the element does not exist within the timout (or specified duration)
+        """
+        if self.debug:
+            log = logging.getLogger("Check if element does not exist")
+            log.debug("locator: %s", locator)
+            log.debug("duration: %s", duration)
+        Ranorex.Validate.NotExists(locator, duration)
+        return True
         
     def click_element(self, locator, location=None):
         """ Clicks on element identified by locator and location
@@ -128,7 +150,7 @@ class RanorexLibrary(object):
             if self.debug:
                 log.error("Failed because of %s", error)
             raise AssertionError(error)
-        		
+                
     def check(self, locator):
         """ Check if element is checked. If not it check it.
             Only checkbox and radiobutton are supported.
