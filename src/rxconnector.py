@@ -90,8 +90,7 @@ class RanorexLibrary(object):
         if self.debug:
             log = logging.getLogger("Close Browser")
             log.debug("browser pid: %s", self.browserPid)
-        # why doesn't close work?
-        Ranorex.Host.Local.KillApplication(self.browserPid)
+        Ranorex.Host.Local.CloseApplication(self.browserPid)
 
     def open_browser(self, url, browser):
         """ Opens the browser at a URL
@@ -100,7 +99,8 @@ class RanorexLibrary(object):
             log = logging.getLogger("Open Browser")
             log.debug("url: %s", url)
             log.debug("browser: %s", browser)
-        self.browserPid = Ranorex.Host.Local.OpenBrowser(url, browser)
+        #try opening maximised to stop focus issues
+        self.browserPid = Ranorex.Host.Local.OpenBrowser(url, browser, False, True)
 
     def check_if_element_exists(self, locator, duration=5000):
         """ Checks if the element exists within the timout (or specified duration)
