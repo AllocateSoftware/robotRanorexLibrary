@@ -62,7 +62,7 @@ class RanorexLibrary(object):
                            'MenuItem', 'Picture', 'ProgressBar',
                            'RadioButton', 'Row', 'ScrollBar', 'Slider',
                            'StatusBar', 'Table', 'Text', 'TitleBar', 'ToggleButton',
-                           'Tree', 'TreeItem', 'Unknown']
+                           'Tree', 'TreeItem', 'Unknown', 'TabPage']
         splitted_locator = locator.split('/')
         if "[" in splitted_locator[-1]:
             ele = splitted_locator[-1].split('[')[0]
@@ -289,6 +289,24 @@ class RanorexLibrary(object):
         if self.debug:
             log.debug("Application object: %s", obj)
         found = obj.Element.GetAttributeValue(attribute)
+        if self.debug:
+            log.debug("Found attribute value is: %s", found)
+        return found
+
+    def get_element_style(self, locator, style):
+        """ Get specified element attribute.
+        """
+        if self.debug:
+            log = logging.getLogger("Get Element Style")
+            log.debug("Locator: %s", locator)
+            log.debug("Style: %s", style)
+        element = self.__return_type(locator)
+        if self.debug:
+            log.debug("Element: %s", element)
+        obj = getattr(Ranorex, element)(locator)
+        if self.debug:
+            log.debug("Application object: %s", obj)
+        found = obj.Element.As<Ranorex.FlexElement>().GetStyle(style)
         if self.debug:
             log.debug("Found attribute value is: %s", found)
         return found
