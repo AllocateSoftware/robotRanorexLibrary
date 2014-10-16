@@ -74,9 +74,8 @@ class RanorexLibrary(object):
             elif ele.lower() == '':
                 raise AssertionError("No element entered")
                 
-        if self.debug:
-            log = logging.getLogger("Return type")
-            log.debug("Ranorex supports: %s", dir(Ranorex))
+        log = logging.getLogger("Return type")
+        log.debug("Ranorex supports: %s", dir(Ranorex))
             
         raise AssertionError("Element is not supported. Entered element: %s" %ele)
     
