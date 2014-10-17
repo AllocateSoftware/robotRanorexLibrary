@@ -83,13 +83,13 @@ class RanorexLibrary(object):
         os.system("TASKKILL /F /IM chrome.exe")
         os.system("TASKKILL /F /IM iexplore.exe")    
 
-    def close_browser(self):
-        """ Close the browser with pid
+    def close_browser(self, browser):
+        """ Close the browser (by killing)
         """
         if self.debug:
             log = logging.getLogger("Close Browser")
-            log.debug("browser pid: %s", self.browserPid)
-        Ranorex.Host.Local.CloseApplication(self.browserPid)
+            log.debug("browser: %s", browser)
+        Ranorex.Host.Local.KillBrowser(browser)
 
     def open_browser(self, url, browser):
         """ Opens the browser at a URL
@@ -98,8 +98,7 @@ class RanorexLibrary(object):
             log = logging.getLogger("Open Browser")
             log.debug("url: %s", url)
             log.debug("browser: %s", browser)
-        #try opening maximised to stop focus issues
-        self.browserPid = Ranorex.Host.Local.OpenBrowser(url, browser, False, True)
+        Ranorex.Host.Local.OpenBrowser(url, browser)
 
     def check_if_element_exists(self, locator, duration=5000):
         """ Checks if the element exists within the timout (or specified duration)
