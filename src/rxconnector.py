@@ -467,6 +467,15 @@ class RanorexLibrary(object):
         img = obj.CaptureCompressedImage()
         return img.ToBase64String()
 
+    def take_desktop_screenshot(self):
+        """ Takes screenshot of the desktop, saves it under name and return it as base64.
+        """
+        if self.debug:
+            log = logging.getLogger("Take Desktop Screenshot")
+            
+        img = Ranorex.Host.Local.CaptureCompressedImage()
+        return img.ToBase64String()
+
     def uncheck(self, locator):
         """ Check if element is checked. If yes it uncheck it
         """
