@@ -91,14 +91,14 @@ class RanorexLibrary(object):
             log.debug("browser: %s", browser)
         Ranorex.Host.Local.KillBrowser(browser)
 
-    def open_browser(self, url, browser):
+    def open_browser(self, url, browser, maximize=False):
         """ Opens the browser at a URL
         """
         if self.debug:
             log = logging.getLogger("Open Browser")
             log.debug("url: %s", url)
             log.debug("browser: %s", browser)
-        Ranorex.Host.Local.OpenBrowser(url, browser)
+        Ranorex.Host.Local.OpenBrowser(url, browser, True, maximize)
 
     def check_if_element_exists(self, locator, duration=5000):
         """ Checks if the element exists within the timout (or specified duration)
@@ -107,7 +107,7 @@ class RanorexLibrary(object):
             log = logging.getLogger("Check if element exists")
             log.debug("locator: %s", locator)
             log.debug("duration: %s", duration)
-        Ranorex.Validate.Exists(locator, duration)
+        Ranorex.Validate.Exists(locator, int(duration))
         return True
 
     def check_if_element_does_not_exist(self, locator, duration=5000):
@@ -117,7 +117,7 @@ class RanorexLibrary(object):
             log = logging.getLogger("Check if element does not exist")
             log.debug("locator: %s", locator)
             log.debug("duration: %s", duration)
-        Ranorex.Validate.NotExists(locator, duration)
+        Ranorex.Validate.NotExists(locator, int(duration))
         return True
         
     def click_element(self, locator, location=None):
