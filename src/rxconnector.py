@@ -100,7 +100,7 @@ class RanorexLibrary(object):
             log.debug("browser: %s", browser)
         Ranorex.Host.Local.OpenBrowser(url, browser, True, maximize)
 
-    def check_if_element_exists(self, locator, duration=5000):
+    def check_if_element_exists(self, locator, duration=60000):
         """ Checks if the element exists within the timout (or specified duration)
         """
         if self.debug:
@@ -110,7 +110,7 @@ class RanorexLibrary(object):
         Ranorex.Validate.Exists(locator, int(duration))
         return True
 
-    def check_if_element_does_not_exist(self, locator, duration=5000):
+    def check_if_element_does_not_exist(self, locator, duration=60000):
         """ Checks if the element does not exist within the timout (or specified duration)
         """
         if self.debug:
