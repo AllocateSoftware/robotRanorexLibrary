@@ -498,7 +498,7 @@ class RanorexLibrary(object):
             raise AssertionError("Element |%s| not supported for unchecking"
                                  % element)
 
-    def wait_for_element(self, locator, timeout):
+    def wait_for_element(self, locator, timeout=60000):
         """ Wait for element becomes on the screen.
         """
         if self.debug:
@@ -511,7 +511,7 @@ class RanorexLibrary(object):
         raise AssertionError("Element %s does not exists" % locator)
 
     def wait_for_element_attribute(self, locator, attribute,
-                                   expected, timeout):
+                                   expected, timeout=60000):
         """ Wait for element attribute becomes requested value.
         """
         if self.debug:
