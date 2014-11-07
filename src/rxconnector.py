@@ -141,14 +141,19 @@ class RanorexLibrary(object):
             else:
                 if not isinstance(location, basestring):
                     raise AssertionError("Location must be a string")
-                location = [int(x) for x in location.split(',')]
-                ele.Click(Ranorex.Location(location[0], location[1]))
+                    
+                if location == "CenterRight":
+                   ele.Click(Ranorex.Location.CenterRight)
+                else:
+                   location = [int(x) for x in location.split(',')]
+                   ele.Click(Ranorex.Location(location[0], location[1]))
+                   
                 return True
         except Exception as error:
             if self.debug:
                 log.error("Failed because of %s", error)
             raise AssertionError(error)
-                
+
     def check(self, locator):
         """ Check if element is checked. If not it check it.
             Only checkbox and radiobutton are supported.
