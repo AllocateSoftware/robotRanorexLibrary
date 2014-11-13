@@ -120,22 +120,27 @@ class RanorexLibrary(object):
         Ranorex.Validate.NotExists(locator, int(duration))
         return True
         
-    def click_element(self, locator, location=None):
+    def click_element(self, locator, location=None, accessible=True):
         """ Clicks on element identified by locator and location
         """
         if self.debug:
             log = logging.getLogger("Click Element")
             log.debug("Locator: %s", locator)
             log.debug("Location: %s", location)
+            log.debug("Accessible Check: %s", accessible)
         element = self.__return_type(locator)
         if self.debug:
             log.debug("Element: %s", element)
         ele = getattr(Ranorex, element)(locator)
         if self.debug:
             log.debug("Application object: %s", ele)
+            
+        if accessible == True:
+            if self._wait_until_element_accessible(ele) == False:
+                raise AssertionError("Element did not become accessible")
+
         try:
             if location == None:
-                ele = getattr(Ranorex, element)(locator)
                 ele.Click()
                 return True
             else:
@@ -154,6 +159,31 @@ class RanorexLibrary(object):
                 log.error("Failed because of %s", error)
             raise AssertionError(error)
 
+    def _wait_until_element_accessible(self, ele, timeout=60000):
+        """ Wait for element to become accessible (enabled & visible)
+        """
+        if self.debug:
+            log = logging.getLogger("Wait Until Element Accessible")
+            
+        curr_time = 0
+        timeout = int(timeout)/1000
+        
+        while curr_time != timeout:
+            enabled = ele.Element.GetAttributeValue("Enabled")
+            visible = ele.Element.GetAttributeValue("Visible")
+
+            if self.debug:
+                log.debug("Element enabled: %s", enabled)
+                log.debug("Element visible: %s", visible)
+
+            if enabled == True and visible == True:
+                return True
+                
+            time.sleep(5)
+            curr_time += 5
+            
+        return False
+    
     def check(self, locator):
         """ Check if element is checked. If not it check it.
             Only checkbox and radiobutton are supported.
@@ -240,7 +270,7 @@ class RanorexLibrary(object):
             raise AssertionError(error)
 
 
-    def double_click_element(self, locator, location=None):
+    def double_click_element(self, locator, location=None, accessible=True):
         """ Doubleclick on element identified by locator. It can click
             on desired location if requested.
         """
@@ -248,22 +278,35 @@ class RanorexLibrary(object):
             log = logging.getLogger("Double Click Element")
             log.debug("Locator: %s", locator)
             log.debug("Location: %s", location)
+            log.debug("Accessible Check: %s", accessible)
         element = self.__return_type(locator)
         if self.debug:
             log.debug("Element: %s", element)
-        obj = getattr(Ranorex, element)(locator)
+        ele = getattr(Ranorex, element)(locator)
         if self.debug:
-            log.debug("Application object: %s", obj)
+            log.debug("Application object: %s", ele)
+            
+        if accessible == True:
+            if self._wait_until_element_accessible(ele) == False:
+                raise AssertionError("Element did not become accessible")
+            
         try:
             if location == None:
-                obj.DoubleClick()
+                ele.DoubleClick()
                 return True
+                
             else:
                 if not isinstance(location, basestring):
                     raise AssertionError("Location must be a string")
-                location = [int(x) for x in location.split(',')]
-                obj.DoubleClick(Ranorex.Location(location[0], location[1]))
+                    
+                if location == "CenterRight":
+                   ele.DoubleClick(Ranorex.Location.CenterRight)
+                else:
+                   location = [int(x) for x in location.split(',')]
+                   ele.DoubleClick(Ranorex.Location(location[0], location[1]))
+                   
                 return True
+                
         except Exception as error:
             raise AssertionError(error)
 
