@@ -63,11 +63,9 @@ class RanorexLibrary(object):
                            'RadioButton', 'Row', 'ScrollBar', 'Slider',
                            'StatusBar', 'Table', 'TabPage', 'Text', 'TitleBar',
                            'ToggleButton', 'Tree', 'TreeItem', 'Unknown' ]
-        splitted_locator = locator.split('/')
-        if "[" in splitted_locator[-1]:
-            ele = splitted_locator[-1].split('[')[0]
-        else:
-            ele = splitted_locator[-1]
+                           
+        ele = RanorexLibrary.extract_element(locator)
+            
         for item in supported_types:
             if ele.lower() == item.lower():
                 return item
@@ -78,6 +76,23 @@ class RanorexLibrary(object):
         log.debug("Ranorex supports: %s", dir(Ranorex))
             
         raise AssertionError("Element is not supported. Entered element: %s" %ele)
+    
+    @classmethod
+    def extract_element(cls, xpath):
+        split_locator = xpath.split('/')
+        
+        if "[" in split_locator[-1]:
+            ele = split_locator[-1].split('[')[0]
+            
+        elif "[" in split_locator[-2] and "]" in split_locator[-1]:
+            # Appears that a forward slash was within a predicate eg. text[@caption='some / randon string']
+            # so look for the element in the position -2 rather than -1
+            ele = split_locator[-2].split('[')[0]
+            
+        else:
+            ele = split_locator[-1]
+            
+        return ele
     
     def kill_all_browsers(self):
         os.system("TASKKILL /F /IM chrome.exe")
