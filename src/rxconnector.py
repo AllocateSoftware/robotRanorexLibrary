@@ -180,8 +180,24 @@ class RanorexLibrary(object):
                 if not isinstance(location, basestring):
                     raise AssertionError("Location must be a string")
                     
-                if location == "CenterRight":
+                if location == "Center":
+                   ele.Click(Ranorex.Location.Center)
+                elif location == "CenterLeft":
+                   ele.Click(Ranorex.Location.CenterLeft)
+                elif location == "CenterRight":
                    ele.Click(Ranorex.Location.CenterRight)
+                elif location == "LowerCenter":
+                   ele.Click(Ranorex.Location.LowerCenter)
+                elif location == "LowerLeft":
+                   ele.Click(Ranorex.Location.LowerLeft)
+                elif location == "LowerRight":
+                   ele.Click(Ranorex.Location.LowerRight)
+                elif location == "UpperCenter":
+                   ele.Click(Ranorex.Location.UpperCenter)
+                elif location == "UpperLeft":
+                   ele.Click(Ranorex.Location.UpperLeft)
+                elif location == "UpperRight":
+                   ele.Click(Ranorex.Location.UpperRight)
                 else:
                    location = [int(x) for x in location.split(',')]
                    ele.Click(Ranorex.Location(location[0], location[1]))
