@@ -106,6 +106,24 @@ class RanorexLibrary(object):
             log.debug("browser: %s", browser)
         Ranorex.Host.Local.KillBrowser(browser)
 
+    def close_browser(self, browser):
+        """ Close the browser
+        """
+        if self.debug:
+            log = logging.getLogger("Close Browser")
+            log.debug("browser: %s", browser)
+         
+        if browser == "firefox":
+            processName = "firefox"
+        elif browser == "ie":
+            processName = "iexplore"
+        elif browser == "chrome":
+            processName = "chrome"
+        else:
+            raise AssertionError("Browser not recognised: %s" %browser)
+            
+        Ranorex.Host.Local.CloseApplications(processName)
+
     def open_browser(self, url, browser, maximize=False):
         """ Opens the browser at a URL
         """
