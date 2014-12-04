@@ -307,11 +307,12 @@ class RanorexLibrary(object):
             log.debug("Application object: %s", obj2)
         try:
             obj1.MoveTo()
-            time.sleep(0.2)
+            time.sleep(0.5)
             Ranorex.Mouse.ButtonDown(System.Windows.Forms.MouseButtons.Left)
-            time.sleep(0.2)
+            time.sleep(0.5)
             obj2.MoveTo()
             time.sleep(0.5)
+            obj2.MoveTo(Ranorex.Location.CenterLeft)
             Ranorex.Mouse.ButtonUp(System.Windows.Forms.MouseButtons.Left)
             #obj.ButtonDown(MouseButtons.Left)
             return True
