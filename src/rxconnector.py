@@ -313,6 +313,7 @@ class RanorexLibrary(object):
             obj2.MoveTo()
             time.sleep(0.5)
             obj2.MoveTo(Ranorex.Location.CenterLeft)
+            obj2.MoveTo(Ranorex.Location.Center)
             Ranorex.Mouse.ButtonUp(System.Windows.Forms.MouseButtons.Left)
             #obj.ButtonDown(MouseButtons.Left)
             return True
