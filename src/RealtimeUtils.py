@@ -3,6 +3,7 @@ import os
 import zipfile
 import zlib
 import urllib
+import re
 
 from robot import utils
 from robot.api import logger
@@ -15,7 +16,15 @@ class RealtimeUtils(object):
 
     ROBOT_LIBRARY_SCOPE = 'TEST SUITE'
     ROBOT_LIBRARY_VERSION = get_version()
-
+    
+    """Escape the string for ranorex
+    """
+    def escape_string(self, string):
+        new_string = re.escape(string)
+        # fix single quote escaping for ranorex
+        new_string = string.replace("\'", "''")  
+        return new_string
+        
     def embed_log_file(self, url, name="realtime"):
         response = urllib.urlopen(url)
         content = response.read()
