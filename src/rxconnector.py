@@ -11,6 +11,7 @@ import Ranorex
 #python imports
 from argparse import ArgumentParser
 from robotremoteserver import RobotRemoteServer
+from os.path import expanduser
 import subprocess
 import logging
 import time
@@ -587,6 +588,20 @@ class RanorexLibrary(object):
             
         img = Ranorex.Host.Local.CaptureCompressedImage()
         return img.ToBase64String()
+
+    def get_file_contents(self, name):
+        """ Get the file contents
+        """
+        if self.debug:
+            log = logging.getLogger("Get File Contents")
+            
+        filename = expanduser("~") + name
+        if self.debug:
+            log.debug("Filename: %s", filename)
+        
+        with open ( filename, "r") as myfile:
+            content = myfile.read()
+        return content
 
     def uncheck(self, locator):
         """ Check if element is checked. If yes it uncheck it

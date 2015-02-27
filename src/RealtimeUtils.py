@@ -25,9 +25,16 @@ class RealtimeUtils(object):
         new_string = string.replace("\'", "''")  
         return new_string
         
+    """Get the contents indentified by the url and embed it in the robot output
+    """
     def embed_log_file(self, url, name="realtime"):
         response = urllib.urlopen(url)
         content = response.read()
+        return embed_file(contents, name)
+
+    """Takes the supplied contents, zips it and embeds it in robot output
+    """
+    def embed_file(self, content, name="file"):
         path = self._save_datafile(name, content)
         self._link_file(path)
         return path
