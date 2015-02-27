@@ -27,8 +27,8 @@ class RanorexLibrary(object):
         self.model = None
         Ranorex.Mouse.DefaultMoveTime = 0
         Ranorex.Keyboard.DefaultKeyPressTime = 20
-        Ranorex.Delay.SpeedFactor = 0.0
-        Ranorex.Adapter.DefaultSearchTimeout = 45000
+        #Ranorex.Delay.SpeedFactor = 0.0
+        Ranorex.Adapter.DefaultSearchTimeout = 60000
         Ranorex.Adapter.DefaultUseEnsureVisible = True
 
     def start_debug(self):
@@ -124,7 +124,7 @@ class RanorexLibrary(object):
             raise AssertionError("Browser not recognised: %s" %browser)
             
         Ranorex.Host.Local.CloseApplications(processName)
-        time.sleep(0.5)
+        Ranorex.Delay.Seconds(1)
 
     def open_browser(self, url, browser, maximize=False):
         """ Opens the browser at a URL
@@ -134,7 +134,7 @@ class RanorexLibrary(object):
             log.debug("url: %s", url)
             log.debug("browser: %s", browser)
         Ranorex.Host.Local.OpenBrowser(url, browser, True, maximize)
-        time.sleep(0.5)
+        Ranorex.Delay.Seconds(1)
 
     def check_if_element_exists(self, locator, duration=60000):
         """ Checks if the element exists within the timout (or specified duration)
@@ -178,7 +178,7 @@ class RanorexLibrary(object):
         try:
             if location == None:
                 ele.Click()
-                time.sleep(0.5)
+                Ranorex.Delay.Seconds(1)
                 return True
             else:
                 if not isinstance(location, basestring):
@@ -206,7 +206,7 @@ class RanorexLibrary(object):
                    location = [int(x) for x in location.split(',')]
                    ele.Click(Ranorex.Location(location[0], location[1]))
                    
-                time.sleep(0.5)
+                Ranorex.Delay.Seconds(1)
                 return True
         except Exception as error:
             if self.debug:
@@ -258,7 +258,7 @@ class RanorexLibrary(object):
             if not obj.Element.GetAttributeValue('Checked'):
                 obj.Element.GetAttributeValue('Checked')
                 obj.Click()
-                time.sleep(0.5)
+                Ranorex.Delay.Seconds(1)
                 return True
         else:
             raise AssertionError("Element |%s| is not supported for checking" %
@@ -313,11 +313,11 @@ class RanorexLibrary(object):
             log.debug("Application object: %s", obj2)
         try:
             obj1.MoveTo()
-            time.sleep(0.5)
+            Ranorex.Delay.Milliseconds(500)
             Ranorex.Mouse.ButtonDown(System.Windows.Forms.MouseButtons.Left)
-            time.sleep(0.5)
+            Ranorex.Delay.Milliseconds(500)
             obj2.MoveTo()
-            time.sleep(0.5)
+            Ranorex.Delay.Milliseconds(500)
             obj2.MoveTo(Ranorex.Location.CenterLeft)
             obj2.MoveTo(Ranorex.Location.Center)
             Ranorex.Mouse.ButtonUp(System.Windows.Forms.MouseButtons.Left)
@@ -350,7 +350,7 @@ class RanorexLibrary(object):
         try:
             if location == None:
                 ele.DoubleClick()
-                time.sleep(0.5)
+                Ranorex.Delay.Seconds(1)
                 return True
                 
             else:
@@ -363,7 +363,7 @@ class RanorexLibrary(object):
                    location = [int(x) for x in location.split(',')]
                    ele.DoubleClick(Ranorex.Location(location[0], location[1]))
                    
-                time.sleep(0.5)
+                Ranorex.Delay.Seconds(1)
                 return True
                 
         except Exception as error:
@@ -413,7 +413,7 @@ class RanorexLibrary(object):
         if self.debug:
             log.debug("Application object: %s", obj)
         obj.PressKeys(text)
-        time.sleep(0.5)
+        Ranorex.Delay.Seconds(1)
         return True
 
     def right_click_element(self, locator, location=None):
@@ -432,7 +432,7 @@ class RanorexLibrary(object):
             log.debug("Application object: %s", obj)
         if location == None:
             obj.Click(System.Windows.Forms.MouseButtons.Right)
-            time.sleep(0.5)
+            Ranorex.Delay.Seconds(1)
             return True
         else:
             if not isinstance(location, basestring):
@@ -440,7 +440,7 @@ class RanorexLibrary(object):
             location = [int(x) for x in location.split(',')]
             obj.Click(System.Windows.Forms.MouseButtons.Right,
                       Ranorex.Location(location[0], location[1]))
-            time.sleep(0.5)
+            Ranorex.Delay.Seconds(1)
             return True
 
     def run_application(self, app):
@@ -561,7 +561,7 @@ class RanorexLibrary(object):
         if self.debug:
             log.debug("Application object: %s", obj)
         obj.Focus()
-        time.sleep(0.5)
+        Ranorex.Delay.Seconds(1)
         return obj.HasFocus
 
     def take_screenshot(self, locator):
@@ -605,7 +605,7 @@ class RanorexLibrary(object):
                 if self.debug:
                     log.debug("Object is checked => unchecking")
                 obj.Click()
-                time.sleep(0.5)
+                Ranorex.Delay.Seconds(1)
                 return True
         else:
             raise AssertionError("Element |%s| not supported for unchecking"
