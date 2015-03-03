@@ -90,6 +90,11 @@ class RanorexLibrary(object):
             # so look for the element in the position -2 rather than -1
             ele = split_locator[-2].split('[')[0]
             
+        elif ".." in split_locator[-1]:
+            # We found a parent selector in the last element e.g. /row/cell[@text='${ActiveForm}']/..
+            # so parent we need is in position -3
+            ele = split_locator[-3]
+            
         else:
             ele = split_locator[-1]
             
