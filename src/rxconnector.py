@@ -664,6 +664,22 @@ class RanorexLibrary(object):
         raise AssertionError("Object at location %s could not be found"
                              % locator)
 
+    def make_visible(self, locator):
+        """ Make the element visible
+        """
+        if self.debug:
+            log = logging.getLogger("Make Visible")
+            log.debug("Locator: %s", locator)
+        element = self.__return_type(locator)
+        if self.debug:
+            log.debug("Element: %s", element)
+        obj = getattr(Ranorex, element)(locator)
+        if self.debug:
+            log.debug("Application object: %s", obj)
+        obj.EnsureVisible()
+        Ranorex.Delay.Seconds(1)
+        return True
+
     def wait_for_process_to_start(self, process_name, timeout):
         """ Waits for /timeout/ seconds for process to start.
         """
