@@ -55,7 +55,7 @@ class RanorexLibrary(object):
                            'ButtonTag', 'CanvasTag', 'Cell', 'CenterTag',
                            'CheckBox', 'CiteTag', 'CodeTag', 'ColGroupTag',
                            'ColTag', 'Column', 'ComboBox', 'CommandTag',
-                           'Container', 'ContextMenu', 'DataListTag',
+                           'Container', 'ContextMenu', 'DataListTag', 'DateTime',
                            'DdTag', 'DelTag', 'DetailsTag', 'DfnTag',
                            'DirTag', 'DivTag', 'DlTag', 'EmbedTag', 'EmTag',
                            'FieldSetTag', 'FigureTag', 'FontTag', 'Form', 'FormTag',
