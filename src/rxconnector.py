@@ -9,6 +9,7 @@ clr.AddReference('System.Windows.Forms')
 import System.Windows.Forms
 import Ranorex
 #python imports
+from System.Collections.Generic import List
 from argparse import ArgumentParser
 from robotremoteserver import RobotRemoteServer
 from os.path import expanduser
@@ -387,6 +388,29 @@ class RanorexLibrary(object):
 
         return table
 
+    def count_list_items(self, locator, childLocator):
+        """ Count the items in a list, only works on a list
+        """
+        if self.debug:
+            log = logging.getLogger("Count List Items")
+            log.debug("Locator: %s", locator)
+            log.debug("Child Locator: %s", childLocator)
+        element = self.__return_type(locator)
+        if self.debug:
+            log.debug("Element: %s", element)
+        if element != "List":
+            if self.debug:
+                log.error("Element is not a list field")
+            raise AssertionError("Only element List is supported!")
+        else:
+            obj = getattr(Ranorex, element)(locator)
+            if self.debug:
+                log.debug("Application object: %s", obj)
+            items = obj.Find[Ranorex.ListItem](childLocator)
+            if self.debug:
+                log.debug("Count: %s", items.Count)
+            return items.Count
+
     def get_element_attribute(self, locator, attribute):
         """ Get specified element attribute.
         """
@@ -404,6 +428,32 @@ class RanorexLibrary(object):
         if self.debug:
             log.debug("Found attribute value is: %s", found)
         return found
+
+    def get_list_items_attribute(self, locator, childLocator, attribute):
+        """ Get specified attribute of the list items in a list
+        """
+        if self.debug:
+            log = logging.getLogger("Get List Items Attribute")
+            log.debug("Locator: %s", locator)
+            log.debug("Child Locator: %s", childLocator)
+            log.debug("Attribute: %s", attribute)
+        element = self.__return_type(locator)
+        if self.debug:
+            log.debug("Element: %s", element)
+        if element != "List":
+            if self.debug:
+                log.error("Element is not a list field")
+            raise AssertionError("Only element List is supported!")
+        else:
+            obj = getattr(Ranorex, element)(locator)
+            if self.debug:
+                log.debug("Application object: %s", obj)
+                
+            items = obj.Find[Ranorex.ListItem](childLocator)
+            itemValues = [item.Element.GetAttributeValue(attribute) for item in items]
+            if self.debug:
+                log.debug("Item Values: %s", itemValues)
+            return itemValues
 
     def input_text(self, locator, text):
         """ input texts into specified locator.
