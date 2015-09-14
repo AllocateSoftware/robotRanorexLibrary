@@ -589,6 +589,42 @@ class RanorexLibrary(object):
                 obj.PressKeys("{down}")
         return True
 
+    def select_list_item_by_index(self, locator, index):
+        """ Select a list item
+        """
+        if self.debug:
+            log = logging.getLogger("Select List Item By Index")
+            log.debug("Locator: %s", locator)
+            log.debug("Index: %s", index)
+        element = self.__return_type(locator)
+        if self.debug:
+            log.debug("Element: %s", element)
+
+        if element != "List":
+            if self.debug:
+                log.error("Element is not a list")
+            raise AssertionError("Only element List is supported!")
+        else:
+            try:
+                ele = getattr(Ranorex, element)(locator)
+                if self.debug:
+                    log.debug("Application object: %s", ele)
+                    
+                """
+                What attributes has the element got?
+                
+                for attr in dir(ele):
+                    if hasattr( ele, attr ):
+                        log.debug( "ele.%s = %s" % (attr, getattr(ele, attr)))
+                """
+
+                ele.Element.SetAttributeValue("selectedIndex", index)
+                return True
+            except Exception as error:
+                if self.debug:
+                    log.error("Failed because of %s", error)
+                raise AssertionError(error)
+
     def send_keys(self, locator, key_seq):
         """ Send key combination to specified element.
         Also it gets focus before executing sequence
