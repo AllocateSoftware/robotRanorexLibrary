@@ -584,11 +584,13 @@ class RanorexLibrary(object):
         if diff >= 0:
             for _ in range(0, diff):
                 obj.PressKeys("{up}")
-                log.debug("Up")
+                if self.debug:
+                    log.debug("Up")
         elif diff < 0:
             for _ in range(0, abs(diff)):
                 obj.PressKeys("{down}")
-                log.debug("Down")
+                if self.debug:
+                    log.debug("Down")
         return True
 
     def select_list_item_by_index(self, locator, index):
