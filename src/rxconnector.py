@@ -555,9 +555,16 @@ class RanorexLibrary(object):
         :param amount: int - amount of scrolling
         :return: None
         """
-
+        if self.debug:
+            log = logging.getLogger("Scroll")
+            log.debug("Locator: %s", locator)
         elem_type = self.__return_type(locator)
+        if self.debug:
+            log.debug("Element: %s", elem_type)
         element = getattr(Ranorex, elem_type)(locator)
+        if self.debug:
+            log.debug("Application object: %s", element)
+        
         mouse = Ranorex.Mouse()
         mouse.MoveTo(element.Element)
         mouse.ScrollWheel(int(amount))
@@ -593,11 +600,11 @@ class RanorexLibrary(object):
                     log.debug("Down")
         return True
 
-    def select_list_item_by_index(self, locator, index):
-        """ Select a list item
+    def set_list_selected_index(self, locator, index):
+        """ Set the list selected index
         """
         if self.debug:
-            log = logging.getLogger("Select List Item By Index")
+            log = logging.getLogger("Set List Selected Index")
             log.debug("Locator: %s", locator)
             log.debug("Index: %s", index)
         element = self.__return_type(locator)
